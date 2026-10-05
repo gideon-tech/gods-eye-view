@@ -68,6 +68,7 @@ Start with the included data sources, then add your own. Each layer is a separat
 - **🎥 Scene director:** Capture cinematic camera tours for clips and demos.
 - **🔗 Share Links:** Camera, style, layers, and even one tracked target serialize into a URL — a live target is a handoff, not a bookmark.
 - **🏠 Reset Globe:** One control — or one sentence — back to the full Earth.
+- **🇺🇬 Uganda tourism explorer:** A dedicated panel overlays curated Uganda destinations (cities, national parks, landmarks, and activities) on the globe with search/filter + detail cards.
 - **🌦️ Weather:** Animate GFS or ECMWF forecast wind, replay observed radar, satellite clouds and lightning on one timeline, and follow NHC/CPHC cyclone tracks. No key needed.
 - **📷 Mapped ALPR cameras:** License-plate-reader camera locations tagged in OpenStreetMap, one city at a time. Locations and tags only; no key needed.
 - **🔭 Satellite passes:** Ask by voice when any loaded satellite next rises over you: rise, peak and set times, and whether you can see it.
@@ -182,6 +183,39 @@ The server binds to **localhost** on both paths, and Provider Settings answers
 requests only from your machine. Browser-side keys (Google Maps, Cesium ion)
 must be restricted at their providers — [SECURITY.md](SECURITY.md) shows how,
 and it carries the LAN-sharing rules alongside [Keys & Costs](#-api-keys).
+
+---
+
+## 🇺🇬 Uganda Tourism Explorer
+
+The app now ships with a browser-first tourism explorer focused on Uganda while preserving the full globe experience.
+
+- **Entry point stays global:** you still start on the world globe.
+- **Uganda is featured by default:** the **Uganda Tourism Explorer** panel focuses Uganda and plots curated markers.
+- **Interactive destination markers:** click a marker (or a list item) to open details and fly the camera.
+- **Discovery controls:** search, filter by category/region/city, browse featured picks, and reset to full world view.
+- **City + region exploration:** includes Kampala, Entebbe, Jinja, and major park/landmark areas.
+
+### Tourism data model and extension point
+
+- Seed data lives in `src/data/tourism/ugandaDestinations.js`.
+- Explorer filtering and selection state lives in `src/data/tourism/explorerModel.js`.
+- UI + globe marker wiring lives in `src/ui/tourismExplorer.js`.
+
+Each destination record uses:
+
+- `name`, `category`, `kind` (city / national-park / landmark)
+- `region`, `city`
+- `coordinates` (`lat`, `lon`)
+- `description`
+- optional presentation fields (`icon`, `featured`, `media`)
+
+To add more countries later, add another country dataset with the same shape and wire it through the same explorer model.
+
+### Data and imagery notes
+
+- Destination copy is concise and intentionally non-promotional.
+- This tourism mode uses local seed metadata and existing globe rendering; it does not bundle new copyrighted destination photos.
 
 ---
 

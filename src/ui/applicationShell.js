@@ -18,6 +18,7 @@ import { CctvControls } from './cctv.js';
 import { RadioControls } from './radio.js';
 import { LocalSdrControls } from './localSdrControls.js';
 import { LocationNavigation } from './locationNavigation.js';
+import { TourismExplorer } from './tourismExplorer.js';
 import { bindClearLayersControl } from './layers.js';
 import { bindCameraOrientationControls } from './cameraOrientationControls.js';
 import { createMapSourceControls } from './mapSource.js';
@@ -340,6 +341,12 @@ export class StyleManager extends ShellFacade {
           this._updateTrafficSyncChip(...args),
         _showToast: (...args) => this._showToast(...args),
       },
+    });
+    this._tourismExplorer = new TourismExplorer({
+      viewer,
+      showToast: (message) => this._showToast(message),
+      onBeforeFocus: () => this.beginLocationNavigation(),
+      onResetWorld: () => this._locationNavigation.resetToGlobeView(),
     });
     this._lastTrafficChipUpdateAt = 0;
 
@@ -1525,6 +1532,7 @@ export class StyleManager extends ShellFacade {
     this._navigation.stop();
     this._shareState.destroy();
     this._locationNavigation.destroy();
+    this._tourismExplorer?.destroy();
     this._lifetime.destroy();
     this._recording.destroy();
     this._panelChrome.destroy();
